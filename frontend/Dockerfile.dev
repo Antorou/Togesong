@@ -1,0 +1,24 @@
+# frontend/Dockerfile.dev
+
+# Étape 1: Utiliser une image de base Node.js
+FROM node:20-alpine
+
+# Étape 2: Définir le répertoire de travail
+WORKDIR /app
+
+# Étape 3: Copier les fichiers package.json et package-lock.json
+# et installer les dépendances (pour le cache Docker)
+COPY package*.json ./
+RUN npm ci
+
+# Étape 4: Copier le reste du code source
+# (ceci sera overwrité par le volume mount en dev, mais est nécessaire pour le build initial)
+COPY . .
+
+# Étape 5: Exposer le port par défaut de Vite (ou le port que vous avez mappé dans docker-compose.yml)
+EXPOSE 3000
+
+# Étape 6: Changer le port par défaut de Vite (normalement 5173) à 3000
+# et définir le script de démarrage en mode dev
+# Le 'host: true' est aussi important pour l'accessibilité dans Docker
+CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0", "--port", "3000"]
