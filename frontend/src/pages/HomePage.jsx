@@ -33,19 +33,19 @@ function HomePage() {
     return () => clearInterval(intervalId);
   }, []);
 
-  if (loading) return <p className="text-spotifyTextLight text-lg mt-8">Chargement du feed...</p>;
-  if (error) return <p className="text-red-500 font-bold text-lg mt-8">Erreur : {error}</p>;
+  if (loading) return <p className="text-togesongText text-lg mt-8 text-center">Chargement du feed...</p>;
+  if (error) return <p className="text-red-500 font-bold text-lg mt-8 text-center">Erreur : {error}</p>;
 
   return (
     <div className="py-8">
-      <h2 className="text-4xl font-bold text-spotifyGreen mb-8 text-center">Le DailyTune Feed (24h)</h2>
+      <h2 className="text-4xl font-bold text-togesongText mb-8 text-center">Feed</h2>
       <div className="flex flex-col gap-6">
         {feed.length > 0 ? (
           feed.map((post) => (
             <FeedCard key={post._id} post={post} fetchFeed={fetchFeed} />
           ))
         ) : (
-          <p className="text-spotifyTextLight text-center text-lg mt-8">Le feed est vide pour le moment. Postez la première musique !</p>
+          <p className="text-togesongText text-center text-lg mt-8">Le feed est vide pour le moment. Postez la première musique !</p>
         )}
       </div>
     </div>

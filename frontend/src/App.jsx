@@ -1,15 +1,17 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
-import Navbar from './components/Navbar'; // Importez la Navbar
-import './App.css'; // Gardez les styles généraux de App.css si nécessaire (principalement @apply)
+import TopHeader from './components/TopHeader';
+import BottomNav from './components/BottomNav';
+import './App.css';
 
 function App() {
   return (
-    <div className="min-h-screen bg-spotifyDark text-spotifyTextDark">
-      <Navbar />
-      <main className="container mx-auto p-5 md:p-8">
+    <div className="flex flex-col min-h-screen w-full bg-togesongBlueLight">
+      <TopHeader />
+      <main className="container mx-auto px-5 md:px-8 flex-grow">
         <Outlet />
       </main>
+      <BottomNav />
     </div>
   );
 }
