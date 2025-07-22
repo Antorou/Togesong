@@ -1,0 +1,69 @@
+.navbar-header {
+  width: 100%;
+  background-color: var(--bg); /* Utilise la couleur de fond globale ou une couleur spécifique */
+  border-bottom: 1px solid var(--accent);
+  padding: 15px 20px;
+  box-sizing: border-box; /* Inclut le padding dans la largeur */
+  display: flex;
+  justify-content: center; /* Centre le contenu horizontalement */
+  margin-bottom: 30px; /* Pour espacer du contenu principal */
+}
+
+.navbar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 960px; /* Aligne avec le max-width de App */
+}
+
+.navbar-title-link {
+  margin: 0;
+  font-size: 2.5rem;
+  color: var(--primary);
+  letter-spacing: 1px;
+  text-decoration: none; /* Enlève le soulignement par défaut des liens */
+  transition: color 0.3s ease;
+}
+
+.navbar-title-link:hover {
+  color: #1ed760; /* Couleur d'accentuation au survol */
+}
+
+.navbar-nav {
+  display: flex;
+  gap: 20px; /* Espace entre les liens de navigation */
+}
+
+.nav-link {
+  color: var(--primary); /* Couleur des liens de navigation */
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1.1em;
+  transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+  color: #1ed760; /* Couleur d'accentuation au survol */
+  text-decoration: underline;
+}
+
+.navbar-auth-buttons {
+  /* Pas de styles spécifiques ici si les styles Clerk sont déjà dans index.css */
+}
+
+/* Media Queries pour les écrans plus petits */
+@media (max-width: 768px) {
+  .navbar-container {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .navbar-title-link {
+    margin-bottom: 15px;
+  }
+
+  .navbar-nav {
+    margin-bottom: 15px;
+  }
+}

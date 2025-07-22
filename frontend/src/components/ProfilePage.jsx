@@ -1,15 +1,12 @@
-// frontend/src/components/ProfilePage.jsx
 import React, { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom'; // useParams pour récupérer l'ID de l'URL, Link pour la navigation
-import { useUser, useAuth } from '@clerk/clerk-react'; // Pour vérifier l'utilisateur actuel
-// import './ProfilePage.css'; // Pour les styles spécifiques au profil
+import { useParams, Link } from 'react-router-dom';
+import { useUser } from '@clerk/clerk-react';
 
 const API_BASE_URL = import.meta.env.VITE_APP_API_URL;
 
 function ProfilePage() {
-  const { userId: profileUserId } = useParams(); // Récupère l'ID utilisateur depuis l'URL
-  const { user: currentUser } = useUser(); // Informations de l'utilisateur connecté
-  const { isSignedIn, userId: currentUserId } = useAuth(); // ID de l'utilisateur connecté
+  const { userId: profileUserId } = useParams();
+  const { user: currentUser } = useUser();
 
   const [userPosts, setUserPosts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -20,7 +17,7 @@ function ProfilePage() {
       setLoading(true);
       setError(null);
       try {
-        const response = await fetch(`${API_BASE_URL}/posts/user/${profileUserId}`); // Nouvelle route back-end
+        const response = await fetch(`${API_BASE_URL}/posts/user/${profileUserId}`);
         if (!response.ok) {
           throw new Error('Erreur lors de la récupération des posts de l\'utilisateur.');
         }
@@ -37,44 +34,54 @@ function ProfilePage() {
     if (profileUserId) {
       fetchUserPosts();
     }
-  }, [profileUserId]); // Recharge si l'ID utilisateur dans l'URL change
+  }, [profileUserId]);
 
-  // Afficher le nom de l'utilisateur du profil ou "Utilisateur inconnu"
-  const displayName = userPosts.length > 0 ? userPosts[0].userName : (currentUser && currentUser.id === profileUserId ? currentUser.fullName || currentUser.username : `Utilisateur ID: ${profileUserId.substring(0, 8)}...`);
-  const profileImage = userPosts.length > 0 ? userPosts[0].userImageUrl : (currentUser && currentUser.id === profileUserId ? currentUser.imageUrl : 'https://www.gravatar.com/avatar/?d=mp'); // Placeholder si pas d'image
+  const displayName = userPosts.length > 0
+    ? userPosts[0].userName
+    : (currentUser && currentUser.id === profileUserId
+        ? currentUser.fullName || currentUser.username || (currentUser.primaryEmailAddress ? currentUser.primaryEmailAddress.emailAddress : `Utilisateur ID: ${profileUserId.substring(0, 8)}...`)
+        : `Utilisateur ID: ${profileUserId ? profileUserId.substring(0, 8) + '...' : 'Inconnu'}`);
+
+  const profileImage = userPosts.length > 0
+    ? userPosts[0].userImageUrl
+    : (currentUser && currentUser.id === profileUserId
+        ? currentUser.imageUrl
+        : 'https://www.gravatar.com/avatar/?d=mp');
 
   return (
-    <div className="profile-page-container" style={{ padding: '20px', maxWidth: '800px', margin: 'auto', textAlign: 'center', backgroundColor: '#282c34', color: '#e0e0e0' }}>
-      <Link to="/" style={{ color: '#1DB954', textDecoration: 'none', marginBottom: '20px', display: 'block' }}>&larr; Retour au feed principal</Link>
+    <div className="w-full max-w-3xl bg-spotifyCard p-8 rounded-lg shadow-xl mx-auto my-8">
+      <Link to="/" className="text-spotifyGreen no-underline text-lg font-bold block mb-5 hover:underline">
+        &larr; Retour au feed principal
+      </Link>
 
-      <h2 style={{ color: '#1DB954', marginTop: '20px' }}>Profil de {displayName}</h2>
-      <img src={profileImage} alt="Photo de profil" style={{ width: '120px', height: '120px', borderRadius: '50%', objectFit: 'cover', border: '3px solid #1DB954', marginBottom: '20px' }} />
+      <h2 className="text-4xl font-bold text-spotifyGreen mt-5 mb-6 text-center">Profil de {displayName}</h2>
+      <img src={profileImage} alt="Photo de profil" className="w-32 h-32 rounded-full object-cover border-4 border-spotifyGreen mb-6 mx-auto" />
 
-      {loading && <p>Chargement des musiques de l'utilisateur...</p>}
-      {error && <p style={{ color: 'red' }}>Erreur : {error}</p>}
+      {loading && <p className="text-spotifyTextLight text-center">Chargement des musiques de l'utilisateur...</p>}
+      {error && <p className="text-red-500 text-center">{error}</p>}
 
-      <h3 style={{ color: '#e0e0e0', marginTop: '30px', marginBottom: '20px' }}>Musiques partagées par {displayName}</h3>
-      <div className="user-posts-list" style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+      <h3 className="text-2xl font-semibold text-spotifyTextDark mt-8 mb-6 text-center">Musiques partagées par {displayName}</h3>
+      <div className="flex flex-col gap-4">
         {userPosts.length > 0 ? (
           userPosts.map((post) => (
-            <div key={post._id} className="feed-item" style={{ border: '1px solid #555', backgroundColor: '#2a2a2a', borderRadius: '10px', padding: '15px', display: 'flex', alignItems: 'center', gap: '15px', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }}>
+            <div key={post._id} className="flex items-start bg-spotifyAccent p-4 rounded-lg shadow-md transition-transform duration-200 hover:translate-y-[-2px] flex-wrap">
               {post.albumImageUrl && (
-                <img src={post.albumImageUrl} alt={post.title} style={{ width: '60px', height: '60px', borderRadius: '8px', marginRight: '10px' }} />
+                <img src={post.albumImageUrl} alt={post.title} className="w-16 h-16 rounded-md mr-4 object-cover flex-shrink-0" />
               )}
-              <div>
-                <h3>{post.title}</h3>
-                <p>{post.artist} - {post.album}</p>
-                {post.previewUrl && (
-                  <audio controls src={post.previewUrl} style={{ width: '100%', marginTop: '10px' }}>
-                    Votre navigateur ne supporte pas l'élément audio.
-                  </audio>
+              <div className="flex-grow flex flex-col justify-center">
+                <h3 className="text-lg font-semibold text-spotifyTextDark mb-1">{post.title}</h3>
+                <p className="text-spotifyTextLight text-sm mb-2">{post.artist} - {post.album}</p>
+                {post.previewUrl ? (
+                  <audio controls src={post.previewUrl} className="w-full min-w-[150px] mt-2 bg-spotifyDark rounded-md outline-none"></audio>
+                ) : (
+                  <p className="text-sm text-spotifyTextLight italic mt-2">Pas de prévisualisation disponible.</p>
                 )}
-                <p style={{ fontSize: '0.8em', color: '#aaa', marginTop: '10px' }}>Posté le : {new Date(post.postedAt).toLocaleString()}</p>
+                <p className="text-xs text-spotifyTextLight mt-2">Posté le : {new Date(post.postedAt).toLocaleString()}</p>
               </div>
             </div>
           ))
         ) : (
-          !loading && <p>Cet utilisateur n'a pas encore partagé de musiques.</p>
+          !loading && <p className="text-spotifyTextLight text-center">Cet utilisateur n'a pas encore partagé de musiques.</p>
         )}
       </div>
     </div>
