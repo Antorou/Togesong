@@ -1,4 +1,3 @@
-// frontend/src/components/FeedCard.jsx
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth, useUser } from '@clerk/clerk-react';
@@ -105,69 +104,63 @@ function FeedCard({ post, fetchFeed }) {
   };
 
   return (
-    <div className="bg-togesongCard p-6 rounded-3xl shadow-card w-full max-w-lg mx-auto transform transition-transform duration-200 hover:scale-[1.01] border border-togesongBorder">
-      {/* Section info utilisateur et date */}
+    <div className="card-background p-4 sm:p-6 rounded-3xl shadow-lg w-full max-w-md mx-auto transform transition-transform duration-200 hover:scale-[1.01]">
       <div className="flex items-center mb-4">
-        {/* Avatar du user */}
-        <div className="w-14 h-14 bg-togesongPlaceholder rounded-full flex items-center justify-center overflow-hidden mr-4">
+        <div className="w-12 h-12 sm:w-14 sm:h-14 placeholder-background rounded-full flex items-center justify-center overflow-hidden mr-3 sm:mr-4">
           {post.userImageUrl ? (
             <img src={post.userImageUrl} alt={post.userName} className="w-full h-full object-cover" />
           ) : (
-            <svg className="w-10 h-10 text-gray-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd"></path></svg>
+            <svg className="w-9 h-9 sm:w-10 sm:h-10 text-secondary" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd"></path></svg>
           )}
         </div>
         <div>
-          <Link to={`/profile/${post.userId}`} className="text-xl font-semibold text-togesongText hover:underline">
+          <Link to={`/profile/${post.userId}`} className="text-lg sm:text-xl font-semibold text-primary hover:underline">
             {post.userName}
           </Link>
-          <p className="text-togesongTime text-sm">{new Date(post.postedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
+          <p className="text-secondary text-sm">{new Date(post.postedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
         </div>
       </div>
 
-      {/* Section image de l'album et infos du morceau */}
       <div className="mb-4">
-        {/* Photo de l'album (grand carré) */}
-        <div className="w-full h-72 bg-togesongPlaceholder rounded-xl overflow-hidden flex items-center justify-center mb-4">
+        <div className="w-full h-60 sm:h-72 placeholder-background rounded-xl overflow-hidden flex items-center justify-center mb-4">
           {post.albumImageUrl ? (
             <img src={post.albumImageUrl} alt={post.title} className="w-full h-full object-cover" />
           ) : (
-            <svg className="w-24 h-24 text-gray-400" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 14.5c-2.49 0-4.5-2.01-4.5-4.5S9.51 7.5 12 7.5s4.5 2.01 4.5 4.5-2.01 4.5-4.5 4.5zm0-7c-1.38 0-2.5 1.12-2.5 2.5s1.12 2.5 2.5 2.5 2.5-1.12 2.5-2.5-1.12-2.5-2.5-2.5z"></path></svg>
+            <svg className="w-20 h-20 sm:w-24 sm:h-24 text-border-dark" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 14.5c-2.49 0-4.5-2.01-4.5-4.5S9.51 7.5 12 7.5s4.5 2.01 4.5 4.5-2.01 4.5-4.5 4.5zm0-7c-1.38 0-2.5 1.12-2.5 2.5s1.12 2.5 2.5 2.5 2.5-1.12 2.5-2.5-1.12-2.5-2.5-2.5z"></path></svg>
           )}
         </div>
-        <h3 className="text-3xl font-bold text-togesongText">{post.title}</h3>
-        <p className="text-xl text-togesongText opacity-80">{post.artist}</p>
+        <h3 className="text-2xl sm:text-3xl font-bold text-primary">{post.title}</h3>
+        <p className="text-lg sm:text-xl text-primary opacity-80">{post.artist}</p>
         {post.previewUrl ? (
-          <audio controls src={post.previewUrl} className="w-full mt-4 bg-togesongBorder rounded-md"></audio>
+          <audio controls src={post.previewUrl} className="w-full mt-4 audio-control-colors rounded-md"></audio>
         ) : (
-          <p className="text-sm text-togesongTime italic mt-4">Pas de prévisualisation disponible.</p>
+          <p className="text-sm text-secondary italic mt-4">Pas de prévisualisation disponible.</p>
         )}
       </div>
 
-      {/* Section Likes et Commentaires */}
-      <div className="flex justify-around items-center border-t border-togesongBorder pt-4 mt-4">
+      <div className="flex justify-around items-center border-t border-light pt-4 mt-4">
         <button
           onClick={handleLikeToggle}
-          className="bg-transparent border-none p-2 text-4xl cursor-pointer transition-transform duration-200 hover:scale-110 disabled:cursor-not-allowed"
-          style={{ color: isLikedByCurrentUser ? '#FF0000' : '#808080' }}
+          className="bg-transparent border-none p-2 text-3xl sm:text-4xl cursor-pointer transition-transform duration-200 hover:scale-110 disabled:cursor-not-allowed"
+          style={{ color: isLikedByCurrentUser ? 'var(--liked-color)' : 'var(--default-like-color)' }}
           disabled={!isSignedIn}
           title={isSignedIn ? (isLikedByCurrentUser ? 'Ne plus aimer' : 'Aimer') : 'Connectez-vous pour aimer'}
         >
           ❤️
         </button>
-        <span className="text-togesongText text-xl">{post.likes.length}</span>
+        <span className="text-primary text-lg sm:text-xl">{post.likes.length}</span>
 
         <button
           onClick={() => setShowComments(!showComments)}
-          className="bg-transparent border-none p-2 text-4xl cursor-pointer transition-transform duration-200 hover:scale-110 text-togesongTime"
+          className="bg-transparent border-none p-2 text-3xl sm:text-4xl cursor-pointer transition-transform duration-200 hover:scale-110 text-secondary"
         >
           💬
         </button>
-        <span className="text-togesongText text-xl">{comments.length}</span>
+        <span className="text-primary text-lg sm:text-xl">{comments.length}</span>
       </div>
 
-      {/* Section des commentaires (visible si showComments est true) */}
       {showComments && (
-        <div className="mt-6 border-t border-togesongBorder pt-4 w-full">
+        <div className="mt-6 border-t border-light pt-4 w-full">
           {isSignedIn ? (
             <div className="flex mb-4 gap-2 items-center">
               <input
@@ -175,33 +168,33 @@ function FeedCard({ post, fetchFeed }) {
                 placeholder="Écrire un commentaire..."
                 value={currentCommentText}
                 onChange={(e) => setCurrentCommentText(e.target.value)}
-                className="flex-grow p-3 rounded-lg border border-togesongBorder bg-gray-100 text-togesongText text-sm focus:border-spotifyGreen focus:outline-none"
+                className="flex-grow p-2 sm:p-3 rounded-lg border border-light input-background text-primary text-sm focus-input-border focus:outline-none"
               />
-              <button onClick={handleAddComment} className="px-5 py-2 bg-spotifyGreen text-white rounded-lg font-bold hover:bg-green-600 transition-colors duration-200">
+              <button onClick={handleAddComment} className="button-primary px-4 py-2 sm:px-5 sm:py-2 rounded-lg font-bold hover-button transition-colors duration-200">
                 Envoyer
               </button>
             </div>
           ) : (
-            <p className="text-sm text-togesongTime text-center mb-4">Connectez-vous pour commenter.</p>
+            <p className="text-sm text-secondary text-center mb-4">Connectez-vous pour commenter.</p>
           )}
 
           <div className="flex flex-col gap-3">
-              {comments.length > 0 ? (
-                  comments.map(comment => (
-                  <div key={comment._id} className="flex items-start p-3 bg-gray-50 rounded-lg shadow-sm">
-                      {comment.userImageUrl && (
-                      <img src={comment.userImageUrl} alt={comment.userName} className="w-8 h-8 rounded-full mr-3 object-cover border border-togesongBorder flex-shrink-0" />
-                      )}
-                      <div>
-                      <p className="m-0 font-bold text-togesongText text-sm">{comment.userName}</p>
-                      <p className="m-0 text-togesongText text-sm break-words">{comment.text}</p>
-                      <p className="m-0 text-xs text-togesongTime mt-1">{new Date(comment.postedAt).toLocaleString()}</p>
-                      </div>
+            {comments.length > 0 ? (
+              comments.map(comment => (
+                <div key={comment._id} className="flex items-start p-3 comment-background rounded-lg shadow-sm">
+                  {comment.userImageUrl && (
+                    <img src={comment.userImageUrl} alt={comment.userName} className="w-8 h-8 rounded-full mr-3 object-cover border border-light flex-shrink-0" />
+                  )}
+                  <div>
+                    <p className="m-0 font-bold text-primary text-sm">{comment.userName}</p>
+                    <p className="m-0 text-primary text-sm break-words">{comment.text}</p>
+                    <p className="m-0 text-xs text-secondary mt-1">{new Date(comment.postedAt).toLocaleString()}</p>
                   </div>
-                  ))
-              ) : (
-                  <p className="text-sm text-togesongTime text-center">Soyez le premier à commenter !</p>
-              )}
+                </div>
+              ))
+            ) : (
+              <p className="text-sm text-secondary text-center">Soyez le premier à commenter !</p>
+            )}
           </div>
         </div>
       )}

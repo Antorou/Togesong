@@ -20,10 +20,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <ClerkProvider publishableKey={PUBLISHABLE_KEY}>
       <BrowserRouter>
         <Routes>
-          {/* App est maintenant la route parente qui contient la Navbar et l'Outlet */}
           <Route path="/" element={<App />}>
-            <Route index element={<HomePage />} /> {/* La page d'accueil par défaut */}
-            <Route path="search-post" element={<SearchPostPage />} />
+            <Route index element={<HomePage />} />
+            <Route path="add" element={<SearchPostPage />} />
             <Route path="profile/:userId" element={<ProfilePage />} />
           </Route>
         </Routes>

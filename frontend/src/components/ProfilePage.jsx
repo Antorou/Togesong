@@ -49,39 +49,39 @@ function ProfilePage() {
         : 'https://www.gravatar.com/avatar/?d=mp');
 
   return (
-    <div className="w-full max-w-3xl bg-togesongCard p-8 rounded-lg shadow-xl mx-auto my-8 border border-togesongBorder text-togesongText">
-      <Link to="/" className="text-spotifyGreen no-underline text-lg font-bold block mb-5 hover:underline text-center">
+    <div className="w-full max-w-xl md:max-w-3xl card-background p-6 md:p-8 rounded-lg shadow-xl mx-auto my-6 md:my-8 text-primary">
+      <Link to="/" className="text-accent no-underline text-base md:text-lg font-bold block mb-4 md:mb-5 hover:underline text-center">
         &larr; Retour au feed principal
       </Link>
 
-      <h2 className="text-4xl font-bold text-togesongText mt-5 mb-6 text-center">Profil de {displayName}</h2>
-      <img src={profileImage} alt="Photo de profil" className="w-32 h-32 rounded-full object-cover border-4 border-spotifyGreen mb-6 mx-auto" />
+      <h2 className="text-3xl md:text-4xl font-bold text-primary mt-4 md:mt-5 mb-5 md:mb-6 text-center">Profil de {displayName}</h2>
+      <img src={profileImage} alt="Photo de profil" className="w-28 h-28 md:w-32 md:h-32 rounded-full object-cover border-4 border-accent mb-5 md:mb-6 mx-auto" />
 
-      {loading && <p className="text-togesongTime text-center">Chargement des musiques de l'utilisateur...</p>}
-      {error && <p className="text-red-500 text-center">{error}</p>}
+      {loading && <p className="text-secondary text-center">Chargement des musiques de l'utilisateur...</p>}
+      {error && <p className="text-error-color text-center">{error}</p>}
 
-      <h3 className="text-2xl font-semibold text-togesongText mt-8 mb-6 text-center">Musiques partagées par {displayName}</h3>
+      <h3 className="text-xl md:text-2xl font-semibold text-primary mt-6 md:mt-8 mb-5 md:mb-6 text-center">Musiques partagées par {displayName}</h3>
       <div className="flex flex-col gap-4">
         {userPosts.length > 0 ? (
           userPosts.map((post) => (
-            <div key={post._id} className="flex items-start bg-gray-50 p-4 rounded-lg shadow-md transition-transform duration-200 hover:translate-y-[-2px] flex-wrap border border-togesongBorder">
+            <div key={post._id} className="flex items-start content-background p-3 md:p-4 rounded-lg shadow-md transition-transform duration-200 hover:translate-y-[-2px] flex-wrap">
               {post.albumImageUrl && (
-                <img src={post.albumImageUrl} alt={post.title} className="w-16 h-16 rounded-md mr-4 object-cover flex-shrink-0" />
+                <img src={post.albumImageUrl} alt={post.title} className="w-14 h-14 md:w-16 md:h-16 rounded-md mr-3 md:mr-4 object-cover flex-shrink-0" />
               )}
               <div className="flex-grow flex flex-col justify-center">
-                <h3 className="text-lg font-semibold text-togesongText mb-1">{post.title}</h3>
-                <p className="text-togesongTime text-sm mb-2">{post.artist} - {post.album}</p>
+                <h3 className="text-base md:text-lg font-semibold text-primary mb-1">{post.title}</h3>
+                <p className="text-secondary text-sm mb-2">{post.artist} - {post.album}</p>
                 {post.previewUrl ? (
-                  <audio controls src={post.previewUrl} className="w-full min-w-[150px] mt-2 bg-togesongBorder rounded-md outline-none"></audio>
+                  <audio controls src={post.previewUrl} className="w-full min-w-[150px] mt-2 audio-control-colors rounded-md outline-none"></audio>
                 ) : (
-                  <p className="text-sm text-togesongTime italic mt-2">Pas de prévisualisation disponible.</p>
+                  <p className="text-sm text-secondary italic mt-2">Pas de prévisualisation disponible.</p>
                 )}
-                <p className="text-xs text-togesongTime mt-2">Posté le : {new Date(post.postedAt).toLocaleString()}</p>
+                <p className="text-xs text-secondary mt-2">Posté le : {new Date(post.postedAt).toLocaleString()}</p>
               </div>
             </div>
           ))
         ) : (
-          !loading && <p className="text-togesongTime text-center">Cet utilisateur n'a pas encore partagé de musiques.</p>
+          !loading && <p className="text-secondary text-center">Cet utilisateur n'a pas encore partagé de musiques.</p>
         )}
       </div>
     </div>

@@ -103,7 +103,7 @@ function SearchPostPage() {
       alert('Musique postée avec succès !');
       setSearchTerm('');
       setTracks([]);
-      setHasPostedToday(true);
+      setHasPostedToday(true); // Met à jour l'état immédiatement après un post réussi
     } catch (err) {
       console.error("Erreur de publication:", err);
       alert(`Erreur lors de la publication : ${err.message}`);
@@ -111,54 +111,54 @@ function SearchPostPage() {
   };
 
   return (
-    <div className="py-8">
-      <h2 className="text-4xl font-bold text-togesongText mb-8 text-center">Rechercher et poster une musique</h2>
-      <form onSubmit={handleSearch} className="flex gap-4 justify-center mb-5">
+    <div className="w-full max-w-lg md:max-w-3xl mx-auto py-6 md:py-8">
+      <h2 className="text-3xl md:text-4xl font-bold text-primary mb-6 md:mb-8 text-center">Rechercher et poster une musique</h2>
+      <form onSubmit={handleSearch} className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center mb-5">
         <input
           type="text"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           placeholder="Rechercher une musique..."
-          className="p-3 rounded-lg w-80 bg-togesongCard text-togesongText border border-togesongBorder focus:border-spotifyGreen focus:outline-none"
+          className="p-3 rounded-lg w-full sm:w-80 card-background text-primary border border-light focus-input-border focus:outline-none"
         />
-        <button type="submit" className="bg-spotifyGreen text-white px-6 py-3 rounded-lg font-bold hover:bg-green-600 transition-all duration-300 shadow-md">
+        <button type="submit" className="button-primary px-6 py-3 rounded-lg font-bold hover-button transition-all duration-300 shadow-md">
           Rechercher
         </button>
       </form>
 
-      {loading && <p className="text-togesongText mt-4 text-center">Chargement des résultats...</p>}
-      {error && <p className="text-red-500 font-bold mt-4 text-center">{error}</p>}
+      {loading && <p className="text-primary mt-4 text-center">Chargement des résultats...</p>}
+      {error && <p className="text-error-color font-bold mt-4 text-center">{error}</p>}
 
       {isSignedIn && hasPostedToday && (
-        <p className="text-orange-500 font-bold mt-4 text-center">
+        <p className="text-warning-color font-bold mt-4 text-center">
           Vous avez déjà posté votre musique DailyTune pour aujourd'hui. Revenez demain !
         </p>
       )}
       {!isSignedIn && (
-        <p className="text-togesongText mt-4 text-center">
+        <p className="text-primary mt-4 text-center">
           Connectez-vous pour poster votre musique DailyTune !
         </p>
       )}
 
-      <div className="flex flex-col gap-4 mt-8 w-full">
+      <div className="flex flex-col gap-4 mt-6 md:mt-8 w-full">
         {tracks.length > 0 ? (
           tracks.map((track) => (
-            <div key={track.id} className="flex items-start bg-togesongCard p-4 rounded-lg shadow-lg transition-transform duration-200 hover:scale-[1.02] flex-wrap border border-togesongBorder">
+            <div key={track.id} className="flex flex-col sm:flex-row items-start card-background p-4 rounded-lg shadow-lg transition-transform duration-200 hover:scale-[1.02] border border-light">
               {track.album.images.length > 0 && (
-                <img src={track.album.images[0].url} alt={track.name} className="w-20 h-20 rounded-lg mr-4 object-cover flex-shrink-0" />
+                <img src={track.album.images[0].url} alt={track.name} className="w-20 h-20 rounded-lg mb-3 sm:mb-0 sm:mr-4 object-cover flex-shrink-0" />
               )}
               <div className="flex-grow flex flex-col justify-center">
-                <h3 className="text-xl font-semibold text-togesongText mb-1">{track.name}</h3>
-                <p className="text-togesongTime text-sm mb-2">{track.artists.map(artist => artist.name).join(', ')} - {track.album.name}</p>
+                <h3 className="text-lg sm:text-xl font-semibold text-primary mb-1">{track.name}</h3>
+                <p className="text-secondary text-sm mb-2">{track.artists.map(artist => artist.name).join(', ')} - {track.album.name}</p>
                 {track.preview_url ? (
-                  <audio controls src={track.preview_url} className="w-full min-w-[200px] mt-2 bg-togesongBorder rounded-md outline-none"></audio>
+                  <audio controls src={track.preview_url} className="w-full min-w-[200px] mt-2 audio-control-colors rounded-md outline-none"></audio>
                 ) : (
-                  <p className="text-sm text-togesongTime italic mt-2">Pas de prévisualisation disponible.</p>
+                  <p className="text-sm text-secondary italic mt-2">Pas de prévisualisation disponible.</p>
                 )}
                 <button
                   onClick={() => handlePostTrack(track)}
                   disabled={!isSignedIn || hasPostedToday}
-                  className="mt-4 px-4 py-2 bg-spotifyGreen text-white rounded-md font-bold hover:bg-green-600 transition-all duration-300 self-start disabled:bg-gray-600 disabled:cursor-not-allowed"
+                  className="mt-4 px-4 py-2 button-primary rounded-md font-bold hover-button transition-all duration-300 self-start disabled-button"
                 >
                   Poster cette musique
                 </button>
@@ -166,7 +166,7 @@ function SearchPostPage() {
             </div>
           ))
         ) : (
-          !loading && !error && searchTerm && <p className="text-togesongText mt-4 text-center">Aucun résultat trouvé pour "{searchTerm}".</p>
+          !loading && !error && searchTerm && <p className="text-primary mt-4 text-center">Aucun résultat trouvé pour "{searchTerm}".</p>
         )}
       </div>
     </div>

@@ -10,9 +10,9 @@ function Navbar() {
       </h1>
       <nav className="flex gap-6">
         <Link to="/" className="text-spotifyTextLight hover:text-spotifyGreen transition-colors duration-200 text-lg font-semibold">Feed</Link>
-        <Link to="/search-post" className="text-spotifyTextLight hover:text-spotifyGreen transition-colors duration-200 text-lg font-semibold">Rechercher & Poster</Link>
+        <Link to="/add" className="text-spotifyTextLight hover:text-spotifyGreen transition-colors duration-200 text-lg font-semibold">Rechercher & Poster</Link>
       </nav>
-      <div className="flex items-center">
+      <div className="flex items-center \">
         <SignedOut>
           <SignInButton />
         </SignedOut>

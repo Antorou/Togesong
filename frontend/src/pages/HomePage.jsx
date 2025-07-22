@@ -33,19 +33,19 @@ function HomePage() {
     return () => clearInterval(intervalId);
   }, []);
 
-  if (loading) return <p className="text-togesongText text-lg mt-8 text-center">Chargement du feed...</p>;
-  if (error) return <p className="text-red-500 font-bold text-lg mt-8 text-center">Erreur : {error}</p>;
+  if (loading) return <p className="text-primary text-lg mt-8 text-center">Chargement du feed...</p>;
+  if (error) return <p className="text-error-color font-bold text-lg mt-8 text-center">Erreur : {error}</p>;
 
   return (
-    <div className="py-8">
-      <h2 className="text-4xl font-bold text-togesongText mb-8 text-center">Feed</h2>
+    <div className="w-full max-w-lg md:max-w-3xl mx-auto py-6 md:py-8">
+      <h2 className="text-3xl md:text-4xl font-bold text-primary mb-6 md:mb-8 text-center">Feed</h2>
       <div className="flex flex-col gap-6">
         {feed.length > 0 ? (
           feed.map((post) => (
             <FeedCard key={post._id} post={post} fetchFeed={fetchFeed} />
           ))
         ) : (
-          <p className="text-togesongText text-center text-lg mt-8">Le feed est vide pour le moment. Postez la première musique !</p>
+          <p className="text-primary text-center text-base md:text-lg mt-8">Le feed est vide pour le moment. Postez la première musique !</p>
         )}
       </div>
     </div>
